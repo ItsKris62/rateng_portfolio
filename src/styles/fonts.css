@@ -1,0 +1,20 @@
+@font-face {
+    font-family: 'Fredericka The Great';
+    src: url('../public/fonts/FrederickaTheGreat-Regular.ttf') format('truetype');
+    font-weight: 400;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Raleway';
+    src: url('../public/fonts/Raleway-Regular.ttf') format('truetype');
+    font-weight: 400;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'VT323';
+    src: url('../public/fonts/VT323-Regular.ttf') format('truetype');
+    font-weight: 400;
+    font-style: normal;
+}
