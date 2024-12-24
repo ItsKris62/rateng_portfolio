@@ -1,11 +1,17 @@
 import { motion } from 'framer-motion';
 import { useEffect, useState } from 'react';
+import Scrollspy from 'react-scrollspy';
 
 export default function Header() {
-    const [isMounted, setIsMounted] = useState(false);
+    const [isScrolled, setIsScrolled] = useState(false);
 
+    // Shrink header on scroll
     useEffect(() => {
-        setIsMounted(true);
+        const handleScroll = () => {
+            setIsScrolled(window.scrollY > 50);
+        };
+        window.addEventListener('scroll', handleScroll);
+        return () => window.removeEventListener('scroll', handleScroll);
     }, []);
 
     const navLinks = [
@@ -17,35 +23,36 @@ export default function Header() {
     ];
 
     return (
-        <header className="fixed top-0 left-0 w-full bg-primary text-background z-50 shadow-lg">
-            <div className="flex justify-between items-center max-w-6xl mx-auto px-6 py-4">
+        <header
+            className={`fixed top-0 left-0 w-full z-50 bg-primary text-background shadow-lg transition-all duration-300 ${
+                isScrolled ? 'py-2' : 'py-4'
+            }`}
+        >
+            <div className="flex justify-between items-center max-w-6xl mx-auto px-6">
                 {/* Animated Name */}
                 <motion.h1
                     className="text-2xl font-fredericka"
                     initial={{ opacity: 0 }}
-                    animate={isMounted ? { opacity: 1 } : {}}
-                    transition={{
-                        duration: 1,
-                        ease: 'easeInOut',
-                    }}
+                    animate={{ opacity: 1 }}
+                    transition={{ duration: 1 }}
                 >
                     <motion.span
                         initial={{ width: 0 }}
-                        animate={isMounted ? { width: 'auto' } : {}}
-                        transition={{
-                            delay: 0.5,
-                            duration: 2,
-                            ease: 'easeInOut',
-                        }}
+                        animate={{ width: 'auto' }}
+                        transition={{ delay: 0.5, duration: 2 }}
                         className="inline-block overflow-hidden whitespace-nowrap"
                     >
-                        Your Name
+                        Christopher Rateng
                     </motion.span>
                 </motion.h1>
 
                 {/* Navigation Links */}
                 <nav>
-                    <ul className="flex space-x-6 text-lg font-raleway">
+                    <Scrollspy
+                        items={navLinks.map((link) => link.href.substring(1))} // IDs from nav links
+                        currentClassName="text-accent font-bold"
+                        className="flex space-x-6 text-lg font-raleway"
+                    >
                         {navLinks.map((link) => (
                             <li key={link.name}>
                                 <a
@@ -56,7 +63,7 @@ export default function Header() {
                                 </a>
                             </li>
                         ))}
-                    </ul>
+                    </Scrollspy>
                 </nav>
             </div>
         </header>
